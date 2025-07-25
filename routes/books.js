@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database/db');
 
-// GET all books with pagination
+// GET all books with pagination (randomized)
 router.get('/', async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     const result = await pool.query(`
       SELECT id, title, author, isbn, price, image, description, amazon_link, category, tags, featured
       FROM books
-      ORDER BY id
+      ORDER BY RANDOM()
       LIMIT $1 OFFSET $2
     `, [limit, offset]);
 
